@@ -14,5 +14,5 @@ export const apiSlice = createApi({
   }),
 });
 
-// Export the auto-generated hook for the `getPosts` query endpoint
+// Export the auto-generated hook for query endpoint
 export const { useGetCharasQuery, useGetSingleCharaQuery } = apiSlice;

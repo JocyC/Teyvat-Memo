@@ -6,8 +6,9 @@ import VisionIcon from "./VisionIcon";
 import RarityStar from "./RarityStar";
 import styled from "styled-components";
 
-const CharacterCard = ({ charaName }) => {
+const CharacterCard = ({ charaName, childToParent }) => {
   const { data, isLoading, isError, error } = useGetSingleCharaQuery(charaName);
+
   if (isLoading) {
     return <Loading />;
   }
@@ -26,12 +27,15 @@ const CharacterCard = ({ charaName }) => {
         className={
           rarity == 5 ? "img-container five-star" : "img-container four-star"
         }
+        onClick={() => {
+          childToParent(name);
+        }}
       >
         <VisionIcon vision={element} className="vision" />
         <img src={icon} alt={name} />
         <RarityStar rarity={rarity} className="rarity" />
+        <div className="info">{name}</div>
       </div>
-      <div className="info">{name}</div>
     </Wrapper>
   );
 };
@@ -41,17 +45,19 @@ const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  width: 150px;
   border-radius: var(--borderRadius);
+  // width: 110px;
   font-weight: 700;
+  box-shadow: var(--shadow-2);
+  padding: 0;
 
-  // background color for different rarity
-  // .img-container .five-star {
-  //   background: var(--five-star);
-  // }
-  // .img-container .four-star {
-  //   background: var(--four-star);
-  // }
+  .img-container {
+    border-radius: var(--borderRadius);
+    padding-top: 0.5rem;
+    position: relative;
+    cursor: pointer;
+  }
+
   .five-star {
     background: var(--five-star);
   }
@@ -60,19 +66,15 @@ const Wrapper = styled.div`
   }
   .info {
     background: var(--clr-grey-10);
+    font-size: 80%;
+    bottom: 1rem;
   }
-
-  // display: grid;
-  // grid-template-rows: 1fr auto;
-  box-shadow: var(--shadow-2);
 
   img {
     display: block;
-    position: relative;
-    width: 150px;
+    width: 110px;
   }
   .vision {
-    position: absolute;
     transform: translate(0);
   }
 `;

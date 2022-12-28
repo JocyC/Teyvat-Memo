@@ -1,10 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import allCharasSlice from "./features/allCharasSlice";
+import allItemsSlice from "./features/allItems/allItemsSlice";
+import userSlice from "./features/user/userSlice";
+import itemSlice from "./features/item/itemSlice";
 import { apiSlice } from "./features/api/apiSlice";
 
 export const store = configureStore({
   reducer: {
-    allCharas: allCharasSlice,
+    user: userSlice,
+    allItems: allItemsSlice,
+    item: itemSlice,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

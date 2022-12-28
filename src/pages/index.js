@@ -1,6 +1,6 @@
-import Dashboard from "./Dashboard";
 import Error from "./Error";
-import Farming from "./Farming";
-import PrimoSave from "./PrimoSave";
+import Landing from "./Landing";
+import Register from "./Register";
+import SinglePlan from "./SinglePlan";
 
-export { Farming, PrimoSave, Dashboard, Error };
+export { Error, Landing, Register, SinglePlan };
