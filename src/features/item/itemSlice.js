@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+import { getAllItems } from "../allItems/allItemsSlice";
 
 const initialState = {
   isLoading: false,
@@ -28,6 +29,25 @@ export const createPlan = (plan) => {
   } else {
     localStorage.setItem("plan", JSON.stringify([plan]));
   }
+  toast.success("A new plan is created successfully");
+};
+
+export const deletePlan = (plan) => {
+  // change this to POST method with database later
+  if (localStorage.getItem("plan")) {
+    const planList = JSON.parse(localStorage.getItem("plan"));
+    const newList = planList.filter((item) => {
+      return (
+        item.selectedName !== plan.selectedName ||
+        item.planType !== plan.planType
+      );
+    });
+    localStorage.setItem("plan", JSON.stringify([...newList]));
+    toast.success("The plan is deleted successfully");
+    getAllItems();
+    return;
+  }
+  toast.error("Something went wrong...");
 };
 
 const itemSlice = createSlice({

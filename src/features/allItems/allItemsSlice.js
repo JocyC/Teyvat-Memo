@@ -1,36 +1,61 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
-const itemList = [...JSON.parse(localStorage.getItem("plan"))];
-const ongoingList = itemList.filter((item) => {
+const iniItemList = [...JSON.parse(localStorage.getItem("plan"))];
+const iniOngoingList = iniItemList.filter((item) => {
   return item.status === "ongoing";
 });
-const nextList = itemList.filter((item) => {
+const iniNextList = iniItemList.filter((item) => {
   return item.status === "next";
 });
-const doneList = itemList.filter((item) => {
+const iniDoneList = iniItemList.filter((item) => {
   return item.status === "done";
 });
 
 const initialState = {
   isLoading: false,
-  itemList,
-  totalItems: itemList.length,
-  ongoingList,
-  nextList,
-  doneList,
+  isError: false,
+  itemList: iniItemList,
+  ongoingList: iniOngoingList,
+  nextList: iniNextList,
+  doneList: iniDoneList,
 };
 
 const allItemsSlice = createSlice({
   name: "allItems",
   initialState,
   reducers: {
-    clearAllItemsState: () => {
-      return { ...initialState };
+    getAllItems: (state) => {
+      const newItemList = [...JSON.parse(localStorage.getItem("plan"))];
+      const newOngoingList = newItemList.filter((item) => {
+        return item.status === "ongoing";
+      });
+      const newNextList = newItemList.filter((item) => {
+        return item.status === "next";
+      });
+      const newDoneList = newItemList.filter((item) => {
+        return item.status === "done";
+      });
+      return {
+        ...state,
+        itemList: newItemList,
+        ongoingList: newOngoingList,
+        nextList: newNextList,
+        doneList: newDoneList,
+      };
+    },
+    clearAllItems: () => {
+      return {
+        ...initialState,
+        itemList: [],
+        ongoingList: [],
+        nextList: [],
+        doneList: [],
+      };
     },
   },
 });
 
-export const { clearAllItemsState } = allItemsSlice.actions;
+export const { clearAllItems, getAllItems } = allItemsSlice.actions;
 
 export default allItemsSlice.reducer;

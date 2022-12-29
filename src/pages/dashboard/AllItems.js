@@ -6,6 +6,7 @@ const AllItems = () => {
   const { isLoading, itemList, totalItems, ongoingList, nextList, doneList } =
     useSelector((store) => store.allItems);
   const dispatch = useDispatch();
+
   const deleteItem = () => {};
   const changeStatus = () => {};
   const sortType = () => {};
@@ -35,19 +36,6 @@ const AllItems = () => {
         </div> */}
 
         <ItemsContainer />
-        {/* <div className="plans-container">
-          <div className="ongoing">
-            {ongoingList.map((item, index) => {
-              return <SinglePlan item={item} key={index} />;
-            })}
-          </div>
-          <div className="next">
-            <SinglePlan />
-          </div>
-          <div className="done">
-            <SinglePlan />
-          </div>
-        </div> */}
       </section>
     </Wrapper>
   );

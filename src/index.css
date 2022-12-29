@@ -5,7 +5,7 @@
 }
 
 /* fonts */
-@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600&family=Prosto+One&display=swap");
 
 html {
   font-size: 100%;
@@ -43,9 +43,9 @@ html {
   --electro: #a555dc;
   --cryo: #dafaf7;
   /* status colors */
-  --ongoing: rgba(245, 118, 118, 0.656);
-  --next: rgba(255, 237, 135, 0.825);
-  --done: rgb(189, 238, 189);
+  --ongoing: rgba(133, 10, 10, 0.656);
+  --next: rgb(231, 196, 0);
+  --done: rgb(1, 99, 1);
   /* other colors */
   --black: #222;
   --white: #fff;
@@ -59,7 +59,7 @@ html {
   );
   /* fonts */
   --headingFont: "Cinzel Decorative", cursive;
-  --bodyFont: "Cinzel", serif;
+  --bodyFont: "Prosto One", cursive;
   --small-text: 0.875rem;
   --extra-small-text: 0.7em;
   /* rest of the vars */
@@ -98,6 +98,7 @@ hr {
 p {
   margin-bottom: 1.5rem;
   max-width: 40em;
+  text-transform: capitalize;
 }
 
 h1,

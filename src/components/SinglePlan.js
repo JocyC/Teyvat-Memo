@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { deletePlan } from "../features/item/itemSlice";
 import CharacterCard from "./CharacterCard";
 
 const SinglePlan = ({ item }) => {
@@ -13,7 +14,7 @@ const SinglePlan = ({ item }) => {
   } = item;
 
   return (
-    <Wrapper>
+    <Wrapper className="single-plan">
       <article className="plan">
         <div className="card-container">
           <CharacterCard charaName={selectedName} />
@@ -36,6 +37,15 @@ const SinglePlan = ({ item }) => {
             <Link to="/single-plan" className="detail-btn">
               details
             </Link>
+            <button
+              className="delete-btn"
+              type="button"
+              onClick={() => {
+                deletePlan(item);
+              }}
+            >
+              delete
+            </button>
           </div>
         </div>
       </article>
@@ -44,7 +54,7 @@ const SinglePlan = ({ item }) => {
 };
 
 const Wrapper = styled.article`
-  width: 500px;
+  text-transform: capitalize;
   .plan {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -80,6 +90,18 @@ const Wrapper = styled.article`
     border: transparent;
     border-radius: 0.3rem;
     border-bottom: solid 2px var(--primary-300);
+    margin-right: 0.5rem;
+  }
+  .delete-btn {
+    cursor: pointer;
+    font-size: 100%;
+    color: var(--primary-100);
+    background: transparent;
+    border: transparent;
+    border-radius: 0.3rem;
+    border-bottom: solid 2px var(--red);
+    text-transform: capitalize;
+    margin-left: 0.5rem;
   }
 `;
 
