@@ -15,7 +15,7 @@ const initialState = {
   planType: "farm",
   planTypeOptions: ["save", "farm"],
   status: "ongoing",
-  statusOptions: ["ongoing", "done", "next"],
+  statusOptions: ["ongoing", "next", "done"],
   constellation: 0,
   ascendLow: 0,
   ascendHigh: 90,

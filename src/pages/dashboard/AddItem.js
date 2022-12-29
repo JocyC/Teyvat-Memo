@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import styled from "styled-components";
-import { CharacterCard } from "../../components";
+import { CharacterCard, FormRowSelect, FormPairSelect } from "../../components";
 import {
   handleChange,
   clearValues,
@@ -54,10 +54,14 @@ const AddItem = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if (!planType || !status) {
-    //   toast.error("Please Fill Out All Fields");
-    //   return;
-    // }
+    if (!selectedName) {
+      toast.error("Who do you make this plan for?");
+      return;
+    }
+    if (ascendLow >= ascendHigh) {
+      toast.error("I thought we are ascending the level...");
+      return;
+    }
     createPlan({
       selectedName,
       planType,
@@ -100,110 +104,45 @@ const AddItem = () => {
         </h5>
         <div className="form-center">
           {/* status: ongoing/next/done */}
-          <div className="form-row">
-            <label htmlFor="status" className="form-label">
-              status
-            </label>
-            <select
-              name="status"
-              value={status}
-              onChange={handleInput}
-              className="form-select"
-            >
-              {statusOptions.map((value, index) => {
-                return (
-                  <option key={index} value={value}>
-                    {value}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
+          <FormRowSelect
+            name="status"
+            value={status}
+            handleChange={handleInput}
+            selectOptions={statusOptions}
+          />
           {/* plan type */}
-          <div className="form-row">
-            <label htmlFor="planType" className="form-label">
-              plan type
-            </label>
-            <select
-              name="planType"
-              value={planType}
-              onChange={handleInput}
-              className="form-select"
-            >
-              {planTypeOptions.map((itemValue, index) => {
-                return (
-                  <option key={index} value={itemValue}>
-                    {itemValue}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-
+          <FormRowSelect
+            name="planType"
+            value={planType}
+            handleChange={handleInput}
+            selectOptions={planTypeOptions}
+            labelText="plan type"
+          />
           {/* if save: */}
           {planType === "save" && (
-            <div className="form-row">
-              <label htmlFor="constellation" className="form-label">
-                constellation
-              </label>
-              <select
-                name="constellation"
-                value={constellation}
-                onChange={handleInput}
-                className="form-select"
-              >
-                {[0, 1, 2, 3, 4, 5, 6].map((value, index) => {
-                  return (
-                    <option key={index} value={value}>
-                      {`C${value}`}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
+            <FormRowSelect
+              name={constellation}
+              value={constellation}
+              handleChange={handleInput}
+              selectOptions={[0, 1, 2, 3, 4, 5, 6]}
+              labelText="constellation number"
+            />
           )}
-          {/* choose number of constallation, save to the saving plan section, output primo number and fate number */}
 
           {/* if farm: */}
           {planType === "farm" && (
             // ascend level from a to b
-            <div className="form-row pair-select">
-              <label htmlFor="ascendLevel" className="form-label pair-label">
-                Ascend Level
-              </label>
-              <select
-                name="ascendLow"
-                value={ascendLow}
-                onChange={handleInput}
-                className="form-select pair-low"
-              >
-                {[...Array(91).keys()].map((value, index) => {
-                  return (
-                    <option key={index} value={value}>
-                      {value}
-                    </option>
-                  );
-                })}
-              </select>
-              <div className="pair-middle">—</div>
-              <select
-                name="ascendHigh"
-                value={ascendHigh}
-                onChange={handleInput}
-                className="form-select pair-high"
-              >
-                {[...Array(91).keys()].map((value, index) => {
-                  return (
-                    <option key={index} value={value}>
-                      {value}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
+            <FormPairSelect
+              labelName="ascendLevel"
+              labelText="ascend level"
+              nameLow="ascendLow"
+              nameHigh="ascendHigh"
+              valueLow={ascendLow}
+              valueHigh={ascendHigh}
+              handleChange={handleInput}
+              selectOptions={[...Array(91).keys()]}
+            />
           )}
-
-          {/* input expected level, level of talent, save to the farming plan section, output the materials (no data on that sadly) */}
         </div>
         {/* btn container */}
         <div className="btn-container">
@@ -254,29 +193,6 @@ const Wrapper = styled.section`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 0.5rem;
-  }
-  .pair-select {
-    display: grid;
-    grid-template-areas:
-      "a a a"
-      "b c d";
-  }
-  .pair-label {
-    grid-area: a;
-  }
-  .pair-low {
-    grid-area: b;
-  }
-  .pair-middle {
-    grid-area: c;
-    text-align: center;
-    align-self: center;
-  }
-  .pair-high {
-    grid-area: d;
-  }
-  select {
-    appearance: none;
   }
 
   .btn-container {

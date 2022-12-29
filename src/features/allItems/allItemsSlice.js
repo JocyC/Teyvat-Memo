@@ -1,24 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAction, createSlice } from "@reduxjs/toolkit";
+import { HttpStatusCode } from "axios";
 import { toast } from "react-toastify";
 
-const iniItemList = [...JSON.parse(localStorage.getItem("plan"))];
-const iniOngoingList = iniItemList.filter((item) => {
-  return item.status === "ongoing";
-});
-const iniNextList = iniItemList.filter((item) => {
-  return item.status === "next";
-});
-const iniDoneList = iniItemList.filter((item) => {
-  return item.status === "done";
-});
+const initialFilterState = {
+  searchContent: "",
+  searchStatus: "all",
+  searchType: "all",
+};
 
 const initialState = {
   isLoading: false,
   isError: false,
-  itemList: iniItemList,
-  ongoingList: iniOngoingList,
-  nextList: iniNextList,
-  doneList: iniDoneList,
+  itemList: [],
+  ongoingList: [],
+  nextList: [],
+  doneList: [],
+  ...initialFilterState,
 };
 
 const allItemsSlice = createSlice({
@@ -26,7 +23,19 @@ const allItemsSlice = createSlice({
   initialState,
   reducers: {
     getAllItems: (state) => {
-      const newItemList = [...JSON.parse(localStorage.getItem("plan"))];
+      const newList = [...JSON.parse(localStorage.getItem("plan"))];
+
+      const newItemList = newList.filter((item) => {
+        const statusFilter =
+          item.status === state.searchStatus || state.searchStatus === "all";
+        const typeFilter =
+          item.planType === state.searchType || state.searchType === "all";
+        const searchFilter = item.selectedName
+          .toLowerCase()
+          .includes(state.searchContent.toLowerCase());
+        return statusFilter && typeFilter && searchFilter;
+      });
+
       const newOngoingList = newItemList.filter((item) => {
         return item.status === "ongoing";
       });
@@ -53,9 +62,27 @@ const allItemsSlice = createSlice({
         doneList: [],
       };
     },
+    handleFilterChange: (state, { payload: { name, value } }) => {
+      state[name] = value;
+    },
+    clearFilters: (state) => {
+      return { ...state, ...initialFilterState };
+    },
   },
 });
 
-export const { clearAllItems, getAllItems } = allItemsSlice.actions;
+export const { clearAllItems, getAllItems, handleFilterChange, clearFilters } =
+  allItemsSlice.actions;
 
 export default allItemsSlice.reducer;
+
+// const filteredList = newItemList.filter((item) => {
+//   const statusFilter =
+//     item.status === state.searchStatus || state.searchStatus === "all";
+//   const typeFilter =
+//     item.planType === state.searchType || state.searchType === "all";
+//   const searchFilter = item.selectedName
+//     .toLowerCase()
+//     .includes(state.searchContent.toLowerCase());
+//   return statusFilter && typeFilter && searchFilter;
+// });

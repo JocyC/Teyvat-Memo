@@ -5,14 +5,21 @@ import { useEffect } from "react";
 import { getAllItems } from "../features/allItems/allItemsSlice";
 
 const ItemsContainer = () => {
-  const { isLoading, totalItems, ongoingList, nextList, doneList } =
-    useSelector((store) => store.allItems);
+  const {
+    isLoading,
+    totalItems,
+    ongoingList,
+    nextList,
+    doneList,
+    searchContent,
+    searchStatus,
+    searchType,
+  } = useSelector((store) => store.allItems);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllItems());
-  }, []);
-
+  }, [searchContent, searchStatus, searchType]);
   // consider using connect and map, mapStateToProps later if it's useful elsewhere too
 
   if (isLoading) {
