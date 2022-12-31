@@ -34,7 +34,7 @@ const SinglePlan = ({ item }) => {
               : ` ${ascendLow} - ${ascendHigh}`}
           </div>
           <div className="btn-container">
-            <Link to="/single-plan" className="detail-btn">
+            <Link to={`/single-plan/:${selectedName}`} className="detail-btn">
               details
             </Link>
             <button
@@ -68,6 +68,7 @@ const Wrapper = styled.article`
   .card-container {
     max-width: 110px;
   }
+
   .info-container {
     display: grid;
     justify-content: start;

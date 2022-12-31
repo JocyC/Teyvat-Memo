@@ -53,6 +53,7 @@ const Navbar = () => {
 };
 
 const Wrapper = styled.nav`
+  z-index: 99;
   height: var(--nav-height);
   display: flex;
   align-items: center;
@@ -67,6 +68,7 @@ const Wrapper = styled.nav`
   .logo-text {
     display: none;
     margin: 0;
+    font-family: var(--headingFont);
   }
   .nav-center {
     display: flex;

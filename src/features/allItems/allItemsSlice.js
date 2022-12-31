@@ -1,5 +1,4 @@
-import { createAction, createSlice } from "@reduxjs/toolkit";
-import { HttpStatusCode } from "axios";
+import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 const initialFilterState = {
@@ -11,6 +10,7 @@ const initialFilterState = {
 const initialState = {
   isLoading: false,
   isError: false,
+  totalItems: [],
   itemList: [],
   ongoingList: [],
   nextList: [],
@@ -45,8 +45,10 @@ const allItemsSlice = createSlice({
       const newDoneList = newItemList.filter((item) => {
         return item.status === "done";
       });
+
       return {
         ...state,
+        totalItems: newItemList.length,
         itemList: newItemList,
         ongoingList: newOngoingList,
         nextList: newNextList,
@@ -54,8 +56,10 @@ const allItemsSlice = createSlice({
       };
     },
     clearAllItems: () => {
+      localStorage.setItem("plan", JSON.stringify([]));
       return {
         ...initialState,
+        totalItems: 0,
         itemList: [],
         ongoingList: [],
         nextList: [],

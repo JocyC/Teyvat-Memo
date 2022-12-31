@@ -28,7 +28,10 @@ const CharacterCard = ({ charaName, childToParent }) => {
           rarity == 5 ? "img-container five-star" : "img-container four-star"
         }
         onClick={() => {
-          childToParent(name);
+          if (childToParent) {
+            childToParent(name);
+          }
+          return;
         }}
       >
         <VisionIcon vision={element} className="vision" />

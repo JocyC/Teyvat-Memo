@@ -5,13 +5,9 @@ import { getAllItems } from "../allItems/allItemsSlice";
 const initialState = {
   isLoading: false,
   isEditing: false,
-  editItemId: "",
+  editItemName: "",
+  editItemType: "",
 
-  // left in big screen, show/hide in small screen
-  itemType: "character",
-  itemTypeOptions: "weapon",
-
-  // right in big screen, show/hide in small screen
   planType: "farm",
   planTypeOptions: ["save", "farm"],
   status: "ongoing",
@@ -23,14 +19,65 @@ const initialState = {
 
 export const createPlan = (plan) => {
   // change this to POST method with database later
-  if (localStorage.getItem("plan")) {
-    const planList = JSON.parse(localStorage.getItem("plan"));
-    localStorage.setItem("plan", JSON.stringify([...planList, plan]));
-  } else {
+  const planList = JSON.parse(localStorage.getItem("plan"));
+  // no plans yet
+  if (!planList) {
     localStorage.setItem("plan", JSON.stringify([plan]));
+    toast.success("Your first plan is created successfully");
+    return;
   }
-  toast.success("A new plan is created successfully");
+  // if a type of plan for someone already exists, just edit it
+  const existingItemIndex = planList.findIndex(
+    (item) =>
+      item.selectedName === plan.selectedName && item.planType === plan.planType
+  );
+  if (existingItemIndex === -1) {
+    localStorage.setItem("plan", JSON.stringify([...planList, plan]));
+    toast.success("A new plan is created successfully");
+    return;
+  }
+  planList[existingItemIndex] = {
+    ...planList[existingItemIndex],
+    status: plan.status,
+    ascendLow: plan.ascendLow,
+    ascendHigh: plan.ascendHigh,
+    constellation: plan.constellation,
+  };
+  localStorage.setItem("plan", JSON.stringify([...planList]));
+  toast.success("Your plan is updated successfully");
+  getAllItems();
 };
+
+// export const createPlan = (plan) => {
+//   // change this to POST method with database later
+//   if (localStorage.getItem("plan")) {
+//     const planList = JSON.parse(localStorage.getItem("plan"));
+//     // if a type of plan for someone already exists, just edit it
+//     const isInside = planList.findIndex(
+//       (item) =>
+//         item.selectedName === plan.selectedName &&
+//         item.planType === plan.planType
+//     );
+//     if (isInside || isInside === 0) {
+//       planList[isInside] = {
+//         ...planList[isInside],
+//         status: plan.status,
+//         ascendLow: plan.ascendLow,
+//         ascendHigh: plan.ascendHigh,
+//         constellation: plan.constellation,
+//       };
+//       localStorage.setItem("plan", JSON.stringify(planList));
+//       toast.success("Your plan is updated successfully");
+//     } else {
+//       localStorage.setItem("plan", JSON.stringify([...planList, plan]));
+//       toast.success("A new plan is created successfully");
+//     }
+//   } else {
+//     localStorage.setItem("plan", JSON.stringify([plan]));
+//     toast.success("A new plan is created successfully");
+//   }
+//   getAllItems();
+// };
 
 export const deletePlan = (plan) => {
   // change this to POST method with database later
@@ -44,7 +91,6 @@ export const deletePlan = (plan) => {
     });
     localStorage.setItem("plan", JSON.stringify([...newList]));
     toast.success("The plan is deleted successfully");
-    getAllItems();
     return;
   }
   toast.error("Something went wrong...");
@@ -60,9 +106,16 @@ const itemSlice = createSlice({
     clearValues: () => {
       return { ...initialState };
     },
+    setEditItem: (state, { payload }) => {
+      return { ...state, isEditing: true, ...payload };
+    },
+    editItem: (state, { payload }) => {
+      return { ...state, isEditing: false, ...payload };
+    },
   },
 });
 
-export const { handleChange, clearValues } = itemSlice.actions;
+export const { handleChange, clearValues, setEditItem, editItem } =
+  itemSlice.actions;
 
 export default itemSlice.reducer;

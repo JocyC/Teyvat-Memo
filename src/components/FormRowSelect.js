@@ -4,6 +4,7 @@ const FormRowSelect = ({
   value,
   handleChange,
   selectOptions,
+  defaultValue,
 }) => {
   return (
     <div className="form-row">
@@ -14,6 +15,7 @@ const FormRowSelect = ({
         name={name}
         value={value}
         onChange={handleChange}
+        defaultValue={defaultValue}
         className="form-select"
       >
         {selectOptions.map((value, index) => {

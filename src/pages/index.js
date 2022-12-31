@@ -1,6 +1,6 @@
 import Error from "./Error";
 import Landing from "./Landing";
 import Register from "./Register";
-import SinglePlan from "./SinglePlan";
+import SinglePlanDetail from "./SinglePlanDetail";
 
-export { Error, Landing, Register, SinglePlan };
+export { Error, Landing, Register, SinglePlanDetail };

@@ -8,15 +8,15 @@ import {
   handleChange,
   clearValues,
   createPlan,
+  editItem,
 } from "../../features/item/itemSlice";
 
 const AddItem = () => {
   const {
     isLoading,
     isEditing,
-    editItemId,
-    itemType,
-    itemTypeOptions,
+    editItemName,
+    editItemType,
     planType,
     planTypeOptions,
     status,
@@ -52,14 +52,30 @@ const AddItem = () => {
     fetchCharaList();
   }, []);
 
+  const itemList = [...JSON.parse(localStorage.getItem("plan"))];
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!selectedName) {
+    if (!selectedName && !isEditing) {
       toast.error("Who do you make this plan for?");
       return;
     }
     if (ascendLow >= ascendHigh) {
       toast.error("I thought we are ascending the level...");
+      return;
+    }
+    if (isEditing) {
+      dispatch(editItem({ status, constellation, ascendLow, ascendHigh }));
+      const editedList = itemList.map((item) => {
+        if (
+          item.selectedName === editItemName &&
+          item.planType === editItemType
+        ) {
+          return { ...item, status, constellation, ascendLow, ascendHigh };
+        }
+        return item;
+      });
+      localStorage.setItem("plan", JSON.stringify(editedList));
+      toast.success("The plan is edited successfully");
       return;
     }
     createPlan({
@@ -82,27 +98,40 @@ const AddItem = () => {
   const childToParent = (selectedName) => {
     setSelectedName(selectedName);
   };
+
   return (
     <Wrapper>
-      <div className="items-container">
-        <div className="all-items">
-          {charaList.map((name, index) => {
-            return (
-              <CharacterCard
-                charaName={name}
-                key={index}
-                childToParent={childToParent}
-              />
-            );
-          })}
+      {!isEditing && (
+        <div className="items-container">
+          <div className="all-items">
+            {charaList.map((name, index) => {
+              return (
+                <CharacterCard
+                  charaName={name}
+                  key={index}
+                  childToParent={childToParent}
+                />
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
       <form className="form">
         <h5>
-          {isEditing ? `edit plan for` : `add plan for`}
-          <span> {selectedName}</span>
+          {isEditing ? `edit ${editItemType} plan for` : `add plan for`}
+          <span> {isEditing ? editItemName : selectedName}</span>
         </h5>
         <div className="form-center">
+          {/* plan type */}
+          {!isEditing && (
+            <FormRowSelect
+              name="planType"
+              value={planType}
+              handleChange={handleInput}
+              selectOptions={planTypeOptions}
+              labelText="plan type"
+            />
+          )}
           {/* status: ongoing/next/done */}
           <FormRowSelect
             name="status"
@@ -110,27 +139,43 @@ const AddItem = () => {
             handleChange={handleInput}
             selectOptions={statusOptions}
           />
-          {/* plan type */}
-          <FormRowSelect
-            name="planType"
-            value={planType}
-            handleChange={handleInput}
-            selectOptions={planTypeOptions}
-            labelText="plan type"
-          />
-          {/* if save: */}
-          {planType === "save" && (
+          {/* editing */}
+          {isEditing && editItemType === "save" && (
             <FormRowSelect
-              name={constellation}
+              name="constellation"
               value={constellation}
               handleChange={handleInput}
               selectOptions={[0, 1, 2, 3, 4, 5, 6]}
               labelText="constellation number"
             />
           )}
-
           {/* if farm: */}
-          {planType === "farm" && (
+          {isEditing && editItemType === "farm" && (
+            // ascend level from a to b
+            <FormPairSelect
+              labelName="ascendLevel"
+              labelText="ascend level"
+              nameLow="ascendLow"
+              nameHigh="ascendHigh"
+              valueLow={ascendLow}
+              valueHigh={ascendHigh}
+              handleChange={handleInput}
+              selectOptions={[...Array(91).keys()]}
+            />
+          )}
+          {/* normal adding items */}
+          {/* if save: */}
+          {!isEditing && planType === "save" && (
+            <FormRowSelect
+              name="constellation"
+              value={constellation}
+              handleChange={handleInput}
+              selectOptions={[0, 1, 2, 3, 4, 5, 6]}
+              labelText="constellation number"
+            />
+          )}
+          {/* if farm: */}
+          {!isEditing && planType === "farm" && (
             // ascend level from a to b
             <FormPairSelect
               labelName="ascendLevel"

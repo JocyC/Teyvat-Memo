@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { SinglePlan, Error, Landing, Register } from "./pages";
+import { SinglePlanDetail, Error, Landing, Register } from "./pages";
 import {
   AddItem,
   AllItems,
@@ -19,10 +19,10 @@ function App() {
           <Route path="all-items" element={<AllItems />} />
           <Route path="add-item" element={<AddItem />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="single-plan/:id" element={<SinglePlanDetail />} />
         </Route>
         <Route path="landing" element={<Landing />} />
         <Route path="register" element={<Register />} />
-        <Route path="single-plan" element={<SinglePlan />} />
         <Route path="*" element={<Error />} />
       </Routes>
       <ToastContainer position="top-center" />

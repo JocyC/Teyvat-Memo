@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import SinglePlan from "./SinglePlan";
 import { useEffect } from "react";
-import { getAllItems } from "../features/allItems/allItemsSlice";
+import { clearAllItems, getAllItems } from "../features/allItems/allItemsSlice";
 
 const ItemsContainer = () => {
   const {
@@ -32,7 +32,7 @@ const ItemsContainer = () => {
   if (totalItems === 0) {
     return (
       <Wrapper>
-        <h2>No plans created yet...</h2>
+        <h3>No plans created yet...</h3>
       </Wrapper>
     );
   }
@@ -70,6 +70,15 @@ const ItemsContainer = () => {
             </div>
           </div>
         )}
+
+        <button
+          className="btn clear-btn"
+          onClick={() => {
+            dispatch(clearAllItems());
+          }}
+        >
+          delete all plans
+        </button>
       </section>
     </Wrapper>
   );
@@ -78,7 +87,7 @@ const ItemsContainer = () => {
 const Wrapper = styled.section`
   .plans-container {
     display: grid;
-    grid-template-rows: auto auto auto;
+    grid-template-rows: auto auto auto auto;
     align-items: center;
     justify-content: center;
   }
@@ -125,6 +134,15 @@ const Wrapper = styled.section`
   }
   .done {
     border-color: var(--done);
+  }
+  .clear-btn {
+    border-radius: var(--borderRadius);
+    padding: 0.5rem;
+    border-color: var(--red);
+    color: var(--red);
+    background: transparent;
+    align-self: center;
+    margin-top: 2rem;
   }
 `;
 
