@@ -14,18 +14,19 @@ const initialState = {
   statusOptions: ["ongoing", "next", "done"],
   constellation: 0,
   ascendLow: 0,
-  ascendHigh: 90,
+  ascendHigh: 6,
 };
 
 export const createPlan = (plan) => {
   // change this to POST method with database later
-  const planList = JSON.parse(localStorage.getItem("plan"));
+  const storageList = localStorage.getItem("plan");
   // no plans yet
-  if (!planList) {
+  if (!storageList) {
     localStorage.setItem("plan", JSON.stringify([plan]));
     toast.success("Your first plan is created successfully");
     return;
   }
+  const planList = JSON.parse(storageList);
   // if a type of plan for someone already exists, just edit it
   const existingItemIndex = planList.findIndex(
     (item) =>
@@ -47,37 +48,6 @@ export const createPlan = (plan) => {
   toast.success("Your plan is updated successfully");
   getAllItems();
 };
-
-// export const createPlan = (plan) => {
-//   // change this to POST method with database later
-//   if (localStorage.getItem("plan")) {
-//     const planList = JSON.parse(localStorage.getItem("plan"));
-//     // if a type of plan for someone already exists, just edit it
-//     const isInside = planList.findIndex(
-//       (item) =>
-//         item.selectedName === plan.selectedName &&
-//         item.planType === plan.planType
-//     );
-//     if (isInside || isInside === 0) {
-//       planList[isInside] = {
-//         ...planList[isInside],
-//         status: plan.status,
-//         ascendLow: plan.ascendLow,
-//         ascendHigh: plan.ascendHigh,
-//         constellation: plan.constellation,
-//       };
-//       localStorage.setItem("plan", JSON.stringify(planList));
-//       toast.success("Your plan is updated successfully");
-//     } else {
-//       localStorage.setItem("plan", JSON.stringify([...planList, plan]));
-//       toast.success("A new plan is created successfully");
-//     }
-//   } else {
-//     localStorage.setItem("plan", JSON.stringify([plan]));
-//     toast.success("A new plan is created successfully");
-//   }
-//   getAllItems();
-// };
 
 export const deletePlan = (plan) => {
   // change this to POST method with database later

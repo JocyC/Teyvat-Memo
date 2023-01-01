@@ -52,7 +52,9 @@ const AddItem = () => {
     fetchCharaList();
   }, []);
 
-  const itemList = [...JSON.parse(localStorage.getItem("plan"))];
+  const itemList = localStorage.getItem("plan")
+    ? [...JSON.parse(localStorage.getItem("plan"))]
+    : [];
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!selectedName && !isEditing) {
@@ -160,7 +162,7 @@ const AddItem = () => {
               valueLow={ascendLow}
               valueHigh={ascendHigh}
               handleChange={handleInput}
-              selectOptions={[...Array(91).keys()]}
+              selectOptions={[...Array(7).keys()]}
             />
           )}
           {/* normal adding items */}
@@ -185,7 +187,7 @@ const AddItem = () => {
               valueLow={ascendLow}
               valueHigh={ascendHigh}
               handleChange={handleInput}
-              selectOptions={[...Array(91).keys()]}
+              selectOptions={[...Array(7).keys()]}
             />
           )}
         </div>

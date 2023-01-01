@@ -1,8 +1,8 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import styled from "styled-components";
-import { CharacterCard } from "../components";
+import { Calculation, CharacterCard } from "../components";
 import { deletePlan, setEditItem } from "../features/item/itemSlice";
 
 const SinglePlanDetail = () => {
@@ -12,6 +12,16 @@ const SinglePlanDetail = () => {
   const itemList = JSON.parse(localStorage.getItem("plan"));
   const detailList = itemList.filter(
     (item) => item.selectedName === selectedName
+  );
+  const totalCost = Object.assign(
+    {},
+    ...detailList.map((item) => {
+      const { planType, ascendLow, ascendHigh, constellation } = item;
+      if (planType === "farm") {
+        return { ascendLow, ascendHigh };
+      }
+      return { constellation };
+    })
   );
 
   return (
@@ -73,12 +83,15 @@ const SinglePlanDetail = () => {
           })}
         </div>
       </div>
-      <div className="calculation"></div>
+      <Calculation name={selectedName} totalCost={totalCost} />
     </Wrapper>
   );
 };
 
 const Wrapper = styled.section`
+  .calculation {
+    display: block;
+  }
   .page-title {
     a {
       color: var(--primary-100);
@@ -106,11 +119,13 @@ const Wrapper = styled.section`
     color: var(--primary-400);
     text-transform: capitalize;
     background: var(--white);
+    opacity: 80%;
     border-radius: var(--borderRadius);
     box-shadow: var(--shadow-2);
     padding: 1rem;
     margin: 0;
     transition: var(--transition);
+    max-width: 30rem;
   }
   .plan-info {
     line-height: 2rem;
