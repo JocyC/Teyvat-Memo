@@ -1,6 +1,12 @@
 import { Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getUserFromLocalStorage } from "../features/user/userSlice";
+import { useEffect } from "react";
 const ProtectedRoute = ({ children }) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUserFromLocalStorage());
+  }, []);
   const { user } = useSelector((store) => store.user);
   if (!user) {
     return <Navigate to="/landing" />;

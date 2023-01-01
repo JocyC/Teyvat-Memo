@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import styled from "styled-components";
 import { Logo, FormRow } from "../components";
@@ -22,6 +22,15 @@ const Register = () => {
 
   const dispatch = useDispatch();
   const { isLoading, user } = useSelector((store) => store.user);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    }
+  }, [user]);
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -48,7 +57,7 @@ const Register = () => {
   };
 
   const loginAsTest = () => {
-    setTestUser();
+    dispatch(setTestUser());
   };
 
   return (
@@ -79,9 +88,13 @@ const Register = () => {
         <button className="btn btn-block" type="submit">
           {values.isMember ? "login" : "register"}
         </button>
-        <Link to="/" className="btn btn-block test" onClick={loginAsTest}>
+        <button
+          className="btn btn-block test"
+          type="button"
+          onClick={loginAsTest}
+        >
           login as test user
-        </Link>
+        </button>
         <p>
           {values.isMember ? "Haven't been here yet?" : "Already a member?"}
 

@@ -24,13 +24,13 @@ export const addUserToLocalStorage = (user) => {
 };
 
 // set a test user
-export const setTestUser = () => {
-  addUserToLocalStorage({
-    name: "test",
-    email: "test@gmail.com",
-    password: "test",
-  });
-};
+// export const setTestUser = () => {
+//   addUserToLocalStorage({
+//     name: "test",
+//     email: "test@gmail.com",
+//     password: "test",
+//   });
+// };
 
 const userSlice = createSlice({
   name: "user",
@@ -48,6 +48,18 @@ const userSlice = createSlice({
       localStorage.removeItem("user");
       state.user = null;
     },
+    setTestUser: (state) => {
+      state.user = {
+        name: "test",
+        email: "test@gmail.com",
+        password: "test",
+      };
+      addUserToLocalStorage({
+        name: "test",
+        email: "test@gmail.com",
+        password: "test",
+      });
+    },
   },
 });
 
@@ -55,6 +67,7 @@ export const {
   toggleSidebar,
   getUserFromLocalStorage,
   removeUserFromLocalStorage,
+  setTestUser,
 } = userSlice.actions;
 
 export default userSlice.reducer;
