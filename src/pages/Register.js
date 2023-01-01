@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import styled from "styled-components";
 import { Logo, FormRow } from "../components";
-import { loginUser, registerUser } from "../features/user/userSlice";
+import {
+  loginUser,
+  registerUser,
+  setTestUser,
+} from "../features/user/userSlice";
 
 const initialState = {
   name: "",
@@ -32,14 +37,18 @@ const Register = () => {
       return;
     }
     if (isMember) {
-      dispatch(loginUser({ email, password }));
+      loginUser({ email, password });
       return;
     }
-    dispatch(registerUser({ name, email, password }));
+    registerUser({ name, email, password });
   };
 
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember });
+  };
+
+  const loginAsTest = () => {
+    setTestUser();
   };
 
   return (
@@ -70,10 +79,18 @@ const Register = () => {
         <button className="btn btn-block" type="submit">
           {values.isMember ? "login" : "register"}
         </button>
+        <Link to="/" className="btn btn-block test" onClick={loginAsTest}>
+          login as test user
+        </Link>
         <p>
           {values.isMember ? "Haven't been here yet?" : "Already a member?"}
 
-          <button type="button" onClick={toggleMember} className="member-btn">
+          <button
+            type="button"
+            onClick={toggleMember}
+            className="member-btn"
+            disabled={isLoading}
+          >
             {values.isMember ? "Register" : "Login"}
           </button>
         </p>
@@ -109,6 +126,13 @@ const Wrapper = styled.section`
     color: var(--primary-500);
     cursor: pointer;
     letter-spacing: var(--letterSpacing);
+  }
+  .test {
+    margin-top: 0rem;
+    background: transparent;
+    color: var(--primary-500);
+    border: solid 1px var(--primary-500);
+    text-align: center;
   }
 `;
 

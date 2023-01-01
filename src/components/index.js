@@ -1,3 +1,4 @@
+import BarChart from "./BarChart";
 import BigSidebar from "./BigSidebar";
 import Calculation from "./Calculation";
 import CharacterCard from "./CharacterCard";
@@ -22,4 +23,5 @@ export {
   FormRowSelect,
   FormPairSelect,
   Calculation,
+  BarChart,
 };

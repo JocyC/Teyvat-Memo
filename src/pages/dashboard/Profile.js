@@ -45,7 +45,12 @@ const Profile = () => {
             handleChange={handleChange}
           />
         </div>
-        <button className="btn btn-block" type="submit" disabled={isLoading}>
+        <button
+          className="btn btn-block"
+          type="submit"
+          disabled={isLoading}
+          onClick={handleSubmit}
+        >
           {isLoading ? "Please wait..." : "save changes"}
         </button>
       </form>

@@ -1,18 +1,25 @@
 import styled from "styled-components";
 import { FaAlignLeft, FaUserCircle, FaCaretDown } from "react-icons/fa";
 import Logo from "./Logo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleSidebar } from "../features/user/userSlice";
+import { Link } from "react-router-dom";
+import {
+  getUserFromLocalStorage,
+  removeUserFromLocalStorage,
+  toggleSidebar,
+} from "../features/user/userSlice";
 
 const Navbar = () => {
-  const { user } = useSelector((store) => store.user);
+  useEffect(() => {
+    dispatch(getUserFromLocalStorage());
+  }, []);
   const dispatch = useDispatch();
+  const { user } = useSelector((store) => store.user);
   const toggle = () => {
     dispatch(toggleSidebar());
   };
   const [showDropdown, setShowDropdown] = useState(false);
-
   return (
     <Wrapper>
       <div className="nav-center">
@@ -36,15 +43,22 @@ const Navbar = () => {
             <FaCaretDown />
           </button>
           <div className={showDropdown ? "dropdown show-dropdown" : "dropdown"}>
-            <button
+            {/* <button
               className="dropdown-btn"
               type="button"
+              
+            >
+              logout
+            </button> */}
+            <Link
+              to="/register"
+              className="dropdown-btn"
               onClick={() => {
-                console.log("logout");
+                dispatch(removeUserFromLocalStorage());
               }}
             >
               logout
-            </button>
+            </Link>
           </div>
         </div>
       </div>
