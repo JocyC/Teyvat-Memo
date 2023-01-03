@@ -32,7 +32,7 @@ const Navbar = () => {
         </div>
         <div className="btn-container">
           <button
-            className="btn"
+            className="btn user-btn"
             type="button"
             onClick={() => {
               setShowDropdown(!showDropdown);
@@ -43,13 +43,6 @@ const Navbar = () => {
             <FaCaretDown />
           </button>
           <div className={showDropdown ? "dropdown show-dropdown" : "dropdown"}>
-            {/* <button
-              className="dropdown-btn"
-              type="button"
-              
-            >
-              logout
-            </button> */}
             <Link
               to="/register"
               className="dropdown-btn"
@@ -109,6 +102,7 @@ const Wrapper = styled.nav`
     gap: 0 0.5rem;
     position: relative;
     box-shadow: var(--shadow-2);
+    font-size: 80%;
   }
   .dropdown {
     position: absolute;
@@ -117,10 +111,15 @@ const Wrapper = styled.nav`
     width: 100%;
     background: var(--primary-100);
     box-shadow: var(--shadow-2);
-    padding: 0.5rem;
+    padding: 0;
     text-align: center;
     visibility: hidden;
     border-radius: var(--borderRadius);
+  }
+  @media (min-width: 481px) {
+    .dropdown {
+      padding: 0.5rem;
+    }
   }
   .show-dropdown {
     visibility: visible;
@@ -129,6 +128,7 @@ const Wrapper = styled.nav`
     background: transparent;
     border: transparent;
     padding: 0;
+    margin: 1rem;
     color: var(--primary-600);
     font-size: 0.1px;
     letter-spacing: var(--letterSpacing);

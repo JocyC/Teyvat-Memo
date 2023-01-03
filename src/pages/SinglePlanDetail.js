@@ -101,6 +101,7 @@ const Wrapper = styled.section`
   .card-container {
     max-width: 110px;
   }
+
   .page-info {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -108,8 +109,15 @@ const Wrapper = styled.section`
   }
   .plan-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 1rem;
+    grid-template-rows: 1fr 1fr;
+    row-gap: 1rem;
+  }
+  @media (min-width: 481px) {
+    .plan-container {
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 1rem;
+    }
   }
 
   .single-plan {

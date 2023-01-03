@@ -42,53 +42,52 @@ const Calculation = ({ name, totalCost }) => {
       return { ...acc, [name]: count };
     }, {}),
   ];
+
   const { ascendLow, ascendHigh, constellation } = totalCost;
   // cost of constellation if there is saving plan
-  const consCost =
-    constellation == 0 || !constellation
-      ? (constellation + 1) * 80 * 160
-      : constellation;
+  const totalCons = constellation ? constellation + 1 : 0;
+  const consCost = totalCons === 0 ? 0 : totalCons * 80 * 160;
   // cost of ascension if there is farming plan
   const ascendCost = costList.slice(ascendLow, ascendHigh);
   const asCostList = getUniqueValues(ascendCost);
-  const asCostIniTotal = asCostList.reduce((acc, curr) => {
+  const asCostInitial = asCostList.reduce((acc, curr) => {
     acc[curr] = 0;
     return acc;
   }, {});
-  const asCostTotal = ascendCost.reduce((acc, curr) => {
-    asCostList.forEach((item) => {
-      if (curr[item]) {
-        acc[item] = acc[item] + curr[item];
-      }
-      acc[item] = acc[item];
-    });
-    return acc;
-  }, asCostIniTotal);
+  const asCostTotal = ascendCost.reduce(
+    (acc, curr) => {
+      asCostList.forEach((item) => {
+        if (curr[item]) {
+          acc[item] = acc[item] + curr[item];
+        }
+        acc[item] = acc[item];
+      });
+      return acc;
+    },
+    { ...asCostInitial }
+  );
 
   return (
     <Wrapper className="calculation">
       <div className="form container">
-        {consCost && (
-          <div className="info">
-            <div className="info-title">
-              Estimated <span>primos</span> needed
-            </div>
-            <div className="info-content">{consCost}</div>
+        <div className="info">
+          <div className="info-title">
+            Estimated <span>primos</span> needed
           </div>
-        )}
-        {ascendCost && (
-          <div className="info">
-            <div className="info-title">Ascension materials :</div>
-            {asCostList.map((item, index) => {
-              const value = asCostTotal[item];
-              return (
-                <div className="info-content" key={index}>
-                  {item} : {value}
-                </div>
-              );
-            })}
-          </div>
-        )}
+          <div className="info-content">{consCost}</div>
+        </div>
+
+        <div className="info">
+          <div className="info-title">Ascension materials :</div>
+          {asCostList.map((item, index) => {
+            const value = ascendHigh ? asCostTotal[item] : asCostInitial[item];
+            return (
+              <div className="info-content" key={index}>
+                {item} : {value}
+              </div>
+            );
+          })}
+        </div>
       </div>
       <img src={cover1} alt={name} />
     </Wrapper>
