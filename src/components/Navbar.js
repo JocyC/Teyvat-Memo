@@ -111,6 +111,7 @@ const Wrapper = styled.nav`
     width: 100%;
     background: var(--primary-100);
     box-shadow: var(--shadow-2);
+    margin: 0;
     padding: 0;
     text-align: center;
     visibility: hidden;
@@ -127,6 +128,7 @@ const Wrapper = styled.nav`
   .dropdown-btn {
     background: transparent;
     border: transparent;
+    display: block;
     padding: 0;
     margin: 1rem;
     color: var(--primary-600);
