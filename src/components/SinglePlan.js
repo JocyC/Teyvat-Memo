@@ -85,24 +85,34 @@ const Wrapper = styled.article`
   }
   .detail-btn {
     cursor: pointer;
-    font-size: 100%;
+    font-size: 80%;
     color: var(--primary-500);
     background: transparent;
     border: transparent;
     border-radius: 0.3rem;
     border-bottom: solid 2px var(--primary-300);
-    margin-right: 0.5rem;
+    margin-right: 0.2rem;
   }
   .delete-btn {
     cursor: pointer;
-    font-size: 100%;
+    font-size: 80%;
     color: var(--primary-100);
     background: transparent;
     border: transparent;
     border-radius: 0.3rem;
     border-bottom: solid 2px var(--red);
     text-transform: capitalize;
-    margin-left: 0.5rem;
+    margin-left: 0.2rem;
+  }
+  @media (min-width: 481px) {
+    .detail-btn {
+      font-size: 100%;
+      margin-right: 0.5rem;
+    }
+    .delete-btn {
+      font-size: 100%;
+      margin-left: 0.5rem;
+    }
   }
 `;
 

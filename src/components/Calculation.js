@@ -44,9 +44,10 @@ const Calculation = ({ name, totalCost }) => {
   ];
   const { ascendLow, ascendHigh, constellation } = totalCost;
   // cost of constellation if there is saving plan
-  const consCost = constellation
-    ? (constellation + 1) * 80 * 160
-    : constellation;
+  const consCost =
+    constellation == 0 || !constellation
+      ? (constellation + 1) * 80 * 160
+      : constellation;
   // cost of ascension if there is farming plan
   const ascendCost = costList.slice(ascendLow, ascendHigh);
   const asCostList = getUniqueValues(ascendCost);

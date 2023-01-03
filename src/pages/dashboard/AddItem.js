@@ -232,14 +232,24 @@ const Wrapper = styled.section`
   .items-container {
     background: var(--white);
     border-radius: var(--borderRadius);
-    max-height: 640px;
+    max-height: 500px;
     overflow: scroll;
     padding: 1rem;
   }
   .all-items {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 0.5rem;
+  }
+  @media (min-width: 481px) {
+    .items-container {
+      max-height: 640px;
+    }
+    .all-items {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 0.5rem;
+    }
   }
 
   .btn-container {

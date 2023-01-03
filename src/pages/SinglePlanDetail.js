@@ -98,20 +98,20 @@ const Wrapper = styled.section`
     }
     margin: 1rem;
   }
+  .card-container {
+    max-width: 110px;
+  }
   .page-info {
-    margin-top: 4rem;
     display: grid;
     grid-template-columns: auto 1fr;
     column-gap: 1rem;
-  }
-  .card-container {
-    max-width: 110px;
   }
   .plan-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 1rem;
   }
+
   .single-plan {
     display: grid;
     justify-content: center;

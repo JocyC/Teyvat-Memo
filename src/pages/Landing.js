@@ -60,7 +60,12 @@ const Wrapper = styled.main`
     width:80vw;
     max-width:500px;
     z-index:-99;
-    transform:translate(0%,20%);
+    transform:translate(0%,40%);
+  }
+  @media (min-width:481px){
+    .main-img{
+      transform:translate(0%,20%);
+    }
   }
   @media (min-width:769px){
     .page{
